@@ -1,16 +1,19 @@
 import { fetchBreeds, fetchCatByBreed } from '../cat-api';
+import SlimSelect from 'slim-select';
+import Notiflix from 'notiflix';
 
 //------------------------------------------------------------------
 
 const breedSelectEl = document.querySelector('.breed-select');
 const catInfoEl = document.querySelector('.cat-info');
 const loaderEl = document.querySelector('.loader');
-const errorEl = document.querySelector('.error');
+//const errorEl = document.querySelector('.error');
+const errorEl = Notiflix.Notify.Failure;
 
 //-------------------------------------------------------------------
 
 // creating options
-function chooseBreed(data) {
+function selectBreed(data) {
   fetchBreeds(data)
     .then(data => {
       //   console.log(data);
@@ -21,12 +24,19 @@ function chooseBreed(data) {
       });
 
       breedSelectEl.insertAdjacentHTML('beforeend', optionsMarkup);
+      //breedSelectEl.classList.remove('is-hidden'); // Show select element after options are added
+
+      // Initialize SlimSelect
+      new SlimSelect({
+        select: 'breedSelectEl',
+        //select: '#selectElement',
+      });
       breedSelectEl.classList.remove('is-hidden'); // Show select element after options are added
     })
     .catch(onError);
 }
 
-chooseBreed();
+selectBreed();
 
 //--------------------------------------------------------------------
 
